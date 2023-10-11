@@ -1,10 +1,10 @@
 ---
-repository: "https://github.com/turbot/flowpipe-mod-github"
+repository: "https://github.com/turbot/flowpipe-mod-pagerduty"
 ---
 
-# Flowpipe GitHub Mod
+# Flowpipe PagerDuty Mod
 
-Run pipelines and use triggers for GitHub resources.
+Run pipelines and use triggers for PagerDuty resources.
 
 ## References
 
@@ -33,8 +33,8 @@ brew install flowpipe
 Clone:
 
 ```sh
-git clone https://github.com/turbot/flowpipe-mod-github.git
-cd flowpipe-mod-github
+git clone https://github.com/turbot/flowpipe-mod-pagerduty.git
+cd flowpipe-mod-pagerduty
 ```
 
 ### Usage
@@ -63,7 +63,7 @@ Pipelines have [input variables](https://flowpipe.io/docs/using-flowpipe/mod-var
 - Pass in a value on the command line:
 
   ```shell
-  flowpipe pipeline run user_get_current --pipeline-arg token="ghp_Abc123"
+  flowpipe pipeline run lisr_users --pipeline-arg token="ghp_Abc123"
   ```
 
 These are only some of the ways you can set variables. For a full list, please see [Passing Input Variables](https://flowpipe.io/docs/using-flowpipe/mod-variables#passing-input-variables).
@@ -79,4 +79,4 @@ Please see the [contribution guidelines](https://github.com/turbot/flowpipe/blob
 Want to help but not sure where to start? Pick up one of the `help wanted` issues:
 
 - [Flowpipe](https://github.com/turbot/flowpipe/labels/help%20wanted)
-- [GitHub Mod](https://github.com/turbot/flowpipe-mod-github/labels/help%20wanted)
+- [PagerDuty Mod](https://github.com/turbot/flowpipe-mod-pagerduty/labels/help%20wanted)
