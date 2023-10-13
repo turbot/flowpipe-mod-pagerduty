@@ -1,50 +1,58 @@
-// usage: flowpipe pipeline run create_user --pipeline-arg name="Earline Greenholt" --pipeline-arg email="125.greenholt.earline@graham.name" --pipeline-arg time_zone="America/Lima" --pipeline-arg color="red"  --pipeline-arg role="admin"  --pipeline-arg description="I'm the boss" --pipeline-arg job_title="Director of Engineering"
 pipeline "create_user" {
-  description = "Create a new user."
-
-  param "token" {
-    type    = string
-    default = var.token
-  }
-
-  param "name" {
-    // Limit <= 100 characters
-    type    = string
-  }
-
-  param "email" {
-    // Limit >=6 characters <=100 characters
-    type    = string
-  }
-
-  param "time_zone" {
-    // The preferred time zone name. Ex. America/Lima. If null, the account's time zone will be used.
-    type    = string
-    default = ""
-  }
+  title = "Create user"
+  description = "Create an user."
 
   param "color" {
-    type    = string
-    default = ""
-  }
-
-  param "role" {
-    // Allowed values [admin, limited_user, observer, owner, read_only_user, restricted_access, read_only_limited_user, user]
-    type    = string
-    default = ""
+      type        = string
+      description = "The schedule color."
+      optional    = true
   }
 
   param "description" {
-    type    = string
-    default = ""
+      type        = string
+      description = "The user's bio."
+      optional    = true
+  }
+
+  param "email" {
+      type        = string
+      description = "The user's email address."
   }
 
   param "job_title" {
-    // Limit <=100 characters
-    type    = string
-    default = ""
+      type        = string
+      description = "The user's title."
+      optional    = true
   }
 
+  param "license" {
+      type        = object
+      description = "The License assigned to the User."
+      optional    = true
+  }
+
+  param "name" {
+      type        = string
+      description = "The name of the user."
+  }
+
+  param "role" {
+      type        = string
+      description = "The user role. Account must have the read_only_users ability to set a user as a read_only_user or a read_only_limited_user, and must have advanced permissions abilities to set a user as observer or restricted_access."
+      optional    = true
+  }
+
+  param "time_zone" {
+      type        = string
+      description = "The preferred time zone name. If null, the account's time zone will be used."
+      optional    = true
+  }
+
+  param "token" {
+      type     = string
+      description = "Token to make an API call."
+      default  = var.token
+  }
 
   step "http" "create_user" {
     method = "POST"

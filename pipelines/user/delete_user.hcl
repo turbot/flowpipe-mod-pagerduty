@@ -1,19 +1,21 @@
-// usage: flowpipe pipeline run delete_user --pipeline-arg user_id="...."
 pipeline "delete_user" {
-  description = "Delete an existing user by ID."
+  title = "Delete user"
+  description = "Delete an user given an ID."
 
   param "token" {
     type    = string
+    description = "Token to make an API call."
     default = var.token
   }
 
-  param "user_id" {
+  param "id" {
     type    = string
+    description = "The ID of the resource."
   }
 
   step "http" "delete_user" {
     method = "DELETE"
-    url    = "https://api.pagerduty.com/users/${param.user_id}"
+    url    = "https://api.pagerduty.com/users/${param.id}"
     request_headers = {
       Content-Type  = "application/json"
       Authorization = "Token token=${param.token}"

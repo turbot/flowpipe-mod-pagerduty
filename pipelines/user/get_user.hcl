@@ -1,19 +1,21 @@
-// usage: flowpipe pipeline run get_user --pipeline-arg user_id="...."
 pipeline "get_user" {
-  description = "Get the details of a user by ID."
+  title = "Get user by ID"
+  description = "Get an user by its ID."
 
   param "token" {
     type    = string
+    description = "Token to make an API call."
     default = var.token
   }
 
-  param "user_id" {
+  param "id" {
     type    = string
+    description = "The ID of the resource."
   }
 
   step "http" "get_user" {
     method = "GET"
-    url    = "https://api.pagerduty.com/users/${param.user_id}"
+    url    = "https://api.pagerduty.com/users/${param.id}"
     request_headers = {
       Content-Type  = "application/json"
       Authorization = "Token token=${param.token}"

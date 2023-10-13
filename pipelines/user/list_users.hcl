@@ -1,9 +1,10 @@
-// usage: flowpipe pipeline run list_users
 pipeline "list_users" {
-  description = "Get the details of all users."
+  title = "List users"
+  description = "List users in pagerduty."
 
   param "token" {
     type    = string
+    description = "Token to make an API call."
     default = var.token
   }
 
