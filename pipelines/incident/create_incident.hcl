@@ -1,81 +1,82 @@
-// usage: flowpipe pipeline run create_incident --pipeline-arg type="incident" --pipeline-arg title="The server is on fire." --pipeline-arg service="America/Lima" --pipeline-arg color="red"  --pipeline-arg role="admin"  --pipeline-arg description="I'm the boss" --pipeline-arg job_title="Director of Engineering"
 pipeline "create_incident" {
-  description = "Create a new incident."
+  title       = "Create Incident"
+  description = "Create an incident."
 
-  param "token" {
-    type    = string
-    default = var.token
+  param "body" {
+    type        = object({
+      type    = string
+      details = string
+    })
+    description = "The urgency of the incident."
+    optional    = true
+  }
+
+  param "conference_bridge" {
+    type        = object({
+      conference_number = string
+      conference_url    = string
+    })
+    description = "Central channel for collaboration."
+    optional    = true
+  }
+
+  param "escalation_policy" {
+    type        = object({
+      id = string
+      type    = string
+    })
+    description = "The escalation policy for the incident."
+    optional    = true
   }
 
   param "from" {
     type = string
-  }
-
-  param "type" {
-    type    = string
-  }
-
-  param "title" {
-    type    = string
-  }
-
-  param "service_id" {
-    type    = string
-  }
-
-  param "service_type" {
-    type    = string
-  }
-
-  param "priority_id" {
-    type    = string
-    default = ""
-  }
-
-  param "priority_type" {
-    type    = string
-    default = ""
-  }
-
-  // Allowed values [high, low]
-  param "urgency" {
-    type =  string
-    default = "high"
+    description = "The email address of a valid user associated with the account making the request."
   }
 
   param "incident_key" {
-    type = string
-    default = ""
+    type     = string
+    description = "A string which identifies the incident. Sending subsequent requests referencing the same service and with the same incident_key will result in those requests being rejected if an open incident matches that incident_key."
+    optional = true
   }
 
-  param "body_details" {
+  param "priority" {
+    type        = object({
+      id   = string
+      type = string
+    })
+    description = "The priority of the incident."
+    optional    = true
+  }
+
+  param "service" {
+    type        = object({
+      id   = string
+      type = string
+    })
+    description = "The service detail for the incident."
+  }
+
+  param "token" {
     type    = string
-    default = ""
+    description = "Token to make an API call."
+    default = var.token
   }
 
-  param "body_type" {
-    type    = string
-    default = ""
-  }
-
-  param "escalation_policy_id" {
+  param "title" {
     type = string
-    default = ""
+    description = "A succinct description of the nature, symptoms, cause, or effect of the incident."
   }
 
-  param "escalation_policy_type" {
+  param "type" {
     type = string
-    default = ""
+    description = "The type of the incident"
   }
 
-  param "conference_bridge_conference_number" {
-    type = string
-    default = ""
-  }
-
-  param "conference_bridge_conference_url" {
-    type = string
-    default = ""
+  param "urgency" {
+    type     = string
+    description = "The urgency of the incident."
+    optional = true
   }
 
   step "http" "create_incident" {
@@ -84,34 +85,11 @@ pipeline "create_incident" {
     request_headers = {
       Content-Type  = "application/json"
       Authorization = "Token token=${param.token}"
-      From = "${param.from}"
+      From          = "${param.from}"
     }
     request_body = jsonencode({
       incident = {
-        type = "${param.type}",
-        title = "${param.title}",
-        service = {
-            id = "${param.service_id}",
-            type = "${param.service_type}"
-        },
-        priority = length("${param.priority_id}") > 0 || length("${param.priority_type}") > 0 ? {
-          id   = "${param.priority_id}",
-          type = "${param.priority_type}"
-        } : {},
-        urgency = "${param.urgency}",
-        incident_key = "${param.incident_key}",
-        body = {
-            type = "${param.body_type}",
-            details = "${param.body_details}",
-        },
-        escalation_policy = length("${param.escalation_policy_id}") > 0 || length("${param.escalation_policy_type}") > 0 ? {
-          id   = "${param.escalation_policy_id}",
-          type = "${param.escalation_policy_type}"
-        } : {},
-        conference_bridge = {
-            conference_url = "${param.conference_bridge_conference_url}",
-            conference_number = "${param.conference_bridge_conference_number}"
-        }
+        for name, value in param : name => value if value != null
       }
     })
   }
@@ -119,5 +97,4 @@ pipeline "create_incident" {
   output "incident" {
     value = jsondecode(step.http.create_incident.response_body)
   }
-
 }

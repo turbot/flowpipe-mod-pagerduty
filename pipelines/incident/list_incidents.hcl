@@ -1,9 +1,10 @@
-// usage: flowpipe pipeline run list_incidents
 pipeline "list_incidents" {
-  description = "Get the details of all incidents."
+  title = "List Incidents"
+  description = "List incidents in Pagerduty."
 
   param "token" {
     type    = string
+    description = "Token to make an API call."
     default = var.token
   }
 
