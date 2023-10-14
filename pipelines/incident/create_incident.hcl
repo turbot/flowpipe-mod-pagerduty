@@ -3,7 +3,7 @@ pipeline "create_incident" {
   description = "Create an incident."
 
   param "body" {
-    type        = object({
+    type = object({
       type    = string
       details = string
     })
@@ -12,7 +12,7 @@ pipeline "create_incident" {
   }
 
   param "conference_bridge" {
-    type        = object({
+    type = object({
       conference_number = string
       conference_url    = string
     })
@@ -21,27 +21,27 @@ pipeline "create_incident" {
   }
 
   param "escalation_policy" {
-    type        = object({
-      id = string
-      type    = string
+    type = object({
+      id   = string
+      type = string
     })
     description = "The escalation policy for the incident."
     optional    = true
   }
 
   param "from" {
-    type = string
+    type        = string
     description = "The email address of a valid user associated with the account making the request."
   }
 
   param "incident_key" {
-    type     = string
+    type        = string
     description = "A string which identifies the incident. Sending subsequent requests referencing the same service and with the same incident_key will result in those requests being rejected if an open incident matches that incident_key."
-    optional = true
+    optional    = true
   }
 
   param "priority" {
-    type        = object({
+    type = object({
       id   = string
       type = string
     })
@@ -50,33 +50,33 @@ pipeline "create_incident" {
   }
 
   param "service" {
-    type        = object({
+    type = object({
       id   = string
       type = string
     })
     description = "The service detail for the incident."
   }
 
-  param "token" {
-    type    = string
-    description = "Token to make an API call."
-    default = var.token
+  param "api_key" {
+    type        = string
+    description = "API Key to make an API call."
+    default     = var.api_key
   }
 
   param "title" {
-    type = string
+    type        = string
     description = "A succinct description of the nature, symptoms, cause, or effect of the incident."
   }
 
   param "type" {
-    type = string
+    type        = string
     description = "The type of the incident"
   }
 
   param "urgency" {
-    type     = string
+    type        = string
     description = "The urgency of the incident."
-    optional = true
+    optional    = true
   }
 
   step "http" "create_incident" {
@@ -84,7 +84,7 @@ pipeline "create_incident" {
     url    = "https://api.pagerduty.com/incidents"
     request_headers = {
       Content-Type  = "application/json"
-      Authorization = "Token token=${param.token}"
+      Authorization = "Token token=${param.api_key}"
       From          = "${param.from}"
     }
     request_body = jsonencode({

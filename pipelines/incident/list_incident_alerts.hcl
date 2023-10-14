@@ -1,6 +1,6 @@
-pipeline "get_incident" {
-  title       = "Get Incident"
-  description = "Get incident in Pagerduty."
+pipeline "list_incident_alerts" {
+  title       = "List Incident Alerts"
+  description = "List incident alerts in Pagerduty."
 
   param "api_key" {
     type        = string
@@ -13,16 +13,17 @@ pipeline "get_incident" {
     description = "The ID of the resource."
   }
 
-  step "http" "get_incident" {
+  step "http" "list_incident_alerts" {
     method = "GET"
-    url    = "https://api.pagerduty.com/incidents/${param.incident_id}"
+    url    = "https://api.pagerduty.com/incidents/${param.incident_id}/alerts"
     request_headers = {
       Content-Type  = "application/json"
       Authorization = "Token token=${param.api_key}"
     }
   }
 
-  output "incident" {
-    value = jsondecode(step.http.get_incident.response_body).incident
+  output "incident_alerts" {
+    value = jsondecode(step.http.list_incident_alerts.response_body)
   }
+
 }

@@ -1,11 +1,11 @@
 pipeline "list_users" {
-  title = "List users"
+  title       = "List Users"
   description = "List users in pagerduty."
 
-  param "token" {
-    type    = string
-    description = "Token to make an API call."
-    default = var.token
+  param "api_key" {
+    type        = string
+    description = "API Key to make an API call."
+    default     = var.api_key
   }
 
   step "http" "list_users" {
@@ -13,7 +13,7 @@ pipeline "list_users" {
     url    = "https://api.pagerduty.com/users"
     request_headers = {
       Content-Type  = "application/json"
-      Authorization = "Token token=${param.token}"
+      Authorization = "Token token=${param.api_key}"
     }
   }
 

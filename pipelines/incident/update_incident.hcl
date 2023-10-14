@@ -1,9 +1,9 @@
 pipeline "update_incident" {
-  title = "Update incident by ID"
+  title       = "Update Incident by ID"
   description = "Update an user by its ID."
 
   param "conference_bridge" {
-    type        = object({
+    type = object({
       conference_number = string
       conference_url    = string
     })
@@ -12,30 +12,30 @@ pipeline "update_incident" {
   }
 
   param "escalation_level" {
-    type = number
+    type        = number
     description = "Escalate the incident to this level in the escalation policy."
-    optional = true
+    optional    = true
   }
 
   param "escalation_policy" {
-    type = object({})
+    type        = object({})
     description = "The escalation policy for the incident."
-    optional = true
+    optional    = true
   }
 
   param "from" {
-    type = string
+    type        = string
     description = "The email address of a valid user associated with the account making the request."
-    optional = true
+    optional    = true
   }
 
-  param "id" {
-    type    = string
+  param "incident_id" {
+    type        = string
     description = "The ID of the resource."
   }
 
   param "priority" {
-    type        = object({
+    type = object({
       id   = string
       type = string
     })
@@ -44,46 +44,46 @@ pipeline "update_incident" {
   }
 
   param "resolution" {
-    type = string
+    type        = string
     description = "The resolution for this incident if status is set to resolved."
-    optional = true
+    optional    = true
   }
 
   param "status" {
-    type = string
+    type        = string
     description = "The new status of the incident."
-    optional = true
+    optional    = true
   }
 
-  param "token" {
-    type    = string
-    description = "Token to make an API call."
-    default = var.token
+  param "api_key" {
+    type        = string
+    description = "API Key to make an API call."
+    default     = var.api_key
   }
 
   param "title" {
-    type = string
+    type        = string
     description = "The new title of the incident."
-    optional = true
+    optional    = true
   }
 
   param "type" {
-    type = string
+    type        = string
     description = ""
   }
 
   param "urgency" {
-    type     = string
+    type        = string
     description = "The urgency of the incident."
-    optional = true
+    optional    = true
   }
-  
+
   step "http" "update_incident" {
     method = "PUT"
-    url    = "https://api.pagerduty.com/incidents/${param.id}"
+    url    = "https://api.pagerduty.com/incidents/${param.incident_id}"
     request_headers = {
       Content-Type  = "application/json"
-      Authorization = "Token token=${param.token}"
+      Authorization = "Token token=${param.api_key}"
       From          = "${param.from}"
     }
     request_body = jsonencode({

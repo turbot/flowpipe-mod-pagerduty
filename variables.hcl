@@ -10,7 +10,7 @@ variable "repository_full_name" {
   default     = "cbruno10/github-api-test"
 }
 
-variable "token" {
+variable "api_key" {
   type        = string
   description = "The PagerDuty personal access token to authenticate to the PagerDuty APIs, e.g., `u+gLkyUh9sGsEGH3nmtw`. Please see https://support.pagerduty.com/docs/api-access-keys for more information."
   default     = ""
