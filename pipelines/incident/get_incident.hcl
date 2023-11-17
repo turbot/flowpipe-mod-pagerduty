@@ -23,6 +23,6 @@ pipeline "get_incident" {
   }
 
   output "incident" {
-    value = jsondecode(step.http.get_incident.response_body).incident
+    value = step.http.get_incident.response_body
   }
 }
