@@ -18,12 +18,6 @@ pipeline "get_current_user" {
   }
 
   output "user" {
-    value = jsondecode(step.http.get_current_user.response_body)
-  }
-  output "user_id" {
-    value = jsondecode(step.http.get_current_user.response_body).user.id
-  }
-  output "user_name" {
-    value = jsondecode(step.http.get_current_user.response_body).user.name
+    value = step.http.get_current_user.response_body
   }
 }
