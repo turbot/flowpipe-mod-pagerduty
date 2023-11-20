@@ -1,4 +1,4 @@
-pipeline "list_notes_for_incident" {
+pipeline "list_incident_notes" {
   title       = "List Notes for Incident"
   description = "List notes for an incident."
 
@@ -13,7 +13,7 @@ pipeline "list_notes_for_incident" {
     description = "The ID of the incident."
   }
 
-  step "http" "list_notes_for_incident" {
+  step "http" "list_incident_notes" {
     method = "GET"
     url    = "https://api.pagerduty.com/incidents/${param.incident_id}/notes"
     request_headers = {
@@ -22,7 +22,7 @@ pipeline "list_notes_for_incident" {
     }
   }
 
-  output "list_notes_for_incident" {
-    value = step.http.list_notes_for_incident.response_body
+  output "list_incident_notes" {
+    value = step.http.list_incident_notes.response_body
   }
 }
