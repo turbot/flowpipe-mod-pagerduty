@@ -1,14 +1,14 @@
-mod "pageduty" {
-  title         = "PageDuty"
-  description   = "Run pipelines and triggers that interact with PageDuty."
-  color         = "#191717"
+mod "pagerduty" {
+  title         = "PagerDuty"
+  description   = "Run pipelines and triggers that interact with PagerDuty."
+  color         = "#06AC38"
   documentation = file("./docs/index.md")
-  icon          = "/images/flowpipe/mods/turbot/github.svg"
-  categories    = ["pageduty"]
+  icon          = "/images/flowpipe/mods/turbot/pagerduty.svg"
+  categories    = ["pagerduty", "library"]
 
   opengraph {
-    title       = "PageDuty"
-    description = "Run pipelines and triggers that interact with PageDuty."
-    image       = "/images/flowpipe/mods/turbot/github-social-graphic.png"
+    title       = "PagerDuty"
+    description = "Run pipelines and triggers that interact with PagerDuty."
+    image       = "/images/flowpipe/mods/turbot/pagerduty-social-graphic.png"
   }
 }
