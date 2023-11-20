@@ -1,21 +1,16 @@
 pipeline "update_user" {
-  title       = "Update User by ID"
-  description = "Update an user by its ID."
+  title       = "Update User"
+  description = "Update an existing user."
 
   param "api_key" {
     type        = string
-    description = "API Key to make an API call."
+    description = local.api_key_param_description
     default     = var.api_key
-  }
-
-  param "Accept" {
-    type    = string
-    default = "application/vnd.pagerduty+json;version=2"
   }
 
   param "user_id" {
     type        = string
-    description = "The ID of the resource."
+    description = local.user_id_param_description
   }
 
   param "color" {
@@ -43,7 +38,7 @@ pipeline "update_user" {
 
   param "license" {
     type        = object
-    description = "The License assigned to the User."
+    description = "The license assigned to the user."
     optional    = true
   }
 
@@ -64,28 +59,21 @@ pipeline "update_user" {
     optional    = true
   }
 
-  param "token" {
-    type        = string
-    description = "Token to make an API call."
-    default     = var.api_key
-  }
-
   step "http" "update_user" {
     method = "PUT"
     url    = "https://api.pagerduty.com/users/${param.user_id}"
     request_headers = {
       Content-Type  = "application/json"
       Authorization = "Token token=${param.api_key}"
-      Accept        = "${param.Accept}"
     }
     request_body = jsonencode({
       user = {
-        name = "${param.name}"
+        for name, value in param : name => value if value != null
       }
     })
   }
 
-  output "update_response" {
-    value = jsondecode(step.http.update_user.response_body)
+  output "update_user" {
+    value = step.http.update_user.response_body
   }
 }

@@ -1,10 +1,10 @@
 mod "pagerduty" {
   title         = "PagerDuty"
   description   = "Run pipelines and triggers that interact with PagerDuty."
-  color         = "#06ac38"
+  color         = "#06AC38"
   documentation = file("./docs/index.md")
   icon          = "/images/flowpipe/mods/turbot/pagerduty.svg"
-  categories    = ["pagerduty"]
+  categories    = ["pagerduty", "library"]
 
   opengraph {
     title       = "PagerDuty"

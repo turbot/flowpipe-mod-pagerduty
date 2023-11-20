@@ -9,17 +9,17 @@ pipeline "create_status_update_on_incident" {
 
   param "incident_id" {
     type        = string
-    description = "The ID of the incident."
+    description = local.incident_id_param_description
   }
 
   param "from" {
     type        = string
-    description = "The email address of a valid user associated with the account making the request."
+    description = local.email_param_description
   }
 
   param "api_key" {
     type        = string
-    description = "API Key to make an API call."
+    description = local.api_key_param_description
     default     = var.api_key
   }
 

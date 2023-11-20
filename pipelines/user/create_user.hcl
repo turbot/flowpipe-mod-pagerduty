@@ -27,7 +27,7 @@ pipeline "create_user" {
 
   param "license" {
     type        = object
-    description = "The License assigned to the User."
+    description = "The License assigned to the user."
     optional    = true
   }
 
@@ -50,7 +50,7 @@ pipeline "create_user" {
 
   param "api_key" {
     type        = string
-    description = "API Key to make an API call."
+    description = local.api_key_param_description
     default     = var.api_key
   }
 
@@ -75,12 +75,6 @@ pipeline "create_user" {
   }
 
   output "user" {
-    value = jsondecode(step.http.create_user.response_body)
-  }
-  output "user_id" {
-    value = jsondecode(step.http.create_user.response_body).user.id
-  }
-  output "user_name" {
-    value = jsondecode(step.http.create_user.response_body).user.name
+    value = step.http.create_user.response_body
   }
 }

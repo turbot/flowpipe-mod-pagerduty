@@ -4,7 +4,7 @@ pipeline "get_current_user" {
 
   param "api_key" {
     type        = string
-    description = "API Key to make an API call."
+    description = local.api_key_param_description
     default     = var.api_key
   }
 
@@ -17,7 +17,7 @@ pipeline "get_current_user" {
     }
   }
 
-  output "user" {
+  output "current_user" {
     value = step.http.get_current_user.response_body
   }
 }

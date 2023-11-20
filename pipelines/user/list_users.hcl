@@ -4,7 +4,7 @@ pipeline "list_users" {
 
   param "api_key" {
     type        = string
-    description = "API Key to make an API call."
+    description = local.api_key_param_description
     default     = var.api_key
   }
 
@@ -18,12 +18,6 @@ pipeline "list_users" {
   }
 
   output "users" {
-    value = jsondecode(step.http.list_users.response_body).users
-  }
-  output "user_id" {
-    value = jsondecode(step.http.list_users.response_body).users[*].id
-  }
-  output "user_name" {
-    value = jsondecode(step.http.list_users.response_body).users[*].name
+    value = step.http.list_users.response_body
   }
 }

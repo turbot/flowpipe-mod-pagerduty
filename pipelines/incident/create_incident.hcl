@@ -7,7 +7,7 @@ pipeline "create_incident" {
       type    = string
       details = string
     })
-    description = "The urgency of the incident."
+    description = "Additional incident details."
     optional    = true
   }
 
@@ -31,7 +31,7 @@ pipeline "create_incident" {
 
   param "from" {
     type        = string
-    description = "The email address of a valid user associated with the account making the request."
+    description = local.email_param_description
   }
 
   param "incident_key" {
@@ -59,7 +59,7 @@ pipeline "create_incident" {
 
   param "api_key" {
     type        = string
-    description = "API Key to make an API call."
+    description = local.api_key_param_description
     default     = var.api_key
   }
 
@@ -70,7 +70,7 @@ pipeline "create_incident" {
 
   param "type" {
     type        = string
-    description = "The type of the incident"
+    description = "The type of the incident."
   }
 
   param "urgency" {
@@ -95,6 +95,6 @@ pipeline "create_incident" {
   }
 
   output "incident" {
-    value = jsondecode(step.http.create_incident.response_body)
+    value = step.http.create_incident.response_body
   }
 }

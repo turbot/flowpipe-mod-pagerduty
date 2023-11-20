@@ -4,13 +4,13 @@ pipeline "snooze_incident" {
 
   param "api_key" {
     type        = string
-    description = "API Key to make an API call."
+    description = local.api_key_param_description
     default     = var.api_key
   }
 
   param "from" {
     type        = string
-    description = "The email address of a valid user associated with the account making the request."
+    description = local.email_param_description
   }
 
   param "duration" {
@@ -20,7 +20,7 @@ pipeline "snooze_incident" {
 
   param "incident_id" {
     type        = string
-    description = "The ID of the resource."
+    description = local.incident_id_param_description
   }
 
   step "http" "snooze_incident" {
@@ -36,7 +36,7 @@ pipeline "snooze_incident" {
     })
   }
 
-  output "snooze_response" {
-    value = jsondecode(step.http.snooze_incident.response_body).snooze_response
+  output "snooze_incident" {
+    value = step.http.snooze_incident.response_body
   }
 }

@@ -4,7 +4,7 @@ pipeline "list_incidents" {
 
   param "api_key" {
     type        = string
-    description = "API Key to make an API call."
+    description = local.api_key_param_description
     default     = var.api_key
   }
 
@@ -18,11 +18,6 @@ pipeline "list_incidents" {
   }
 
   output "incidents" {
-    value = jsondecode(step.http.list_incidents.response_body).incidents
+    value = step.http.list_incidents.response_body
   }
-
-  output "incidents_id" {
-    value = jsondecode(step.http.list_incidents.response_body).incidents[*].id
-  }
-
 }

@@ -1,16 +1,16 @@
 pipeline "delete_user" {
   title       = "Delete User"
-  description = "Delete an user given an ID."
+  description = "Delete an user."
 
   param "api_key" {
     type        = string
-    description = "API Key to make an API call."
+    description = local.api_key_param_description
     default     = var.api_key
   }
 
   param "user_id" {
     type        = string
-    description = "The ID of the resource."
+    description = local.user_id_param_description
   }
 
   step "http" "delete_user" {
@@ -22,7 +22,7 @@ pipeline "delete_user" {
     }
   }
 
-  output "delete_response" {
-    value = step.http.delete_user.status_code
+  output "delete_user" {
+    value = step.http.delete_user.response_body
   }
 }

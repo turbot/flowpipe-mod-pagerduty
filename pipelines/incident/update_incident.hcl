@@ -1,6 +1,6 @@
 pipeline "update_incident" {
-  title       = "Update Incident by ID"
-  description = "Update an user by its ID."
+  title       = "Update Incident"
+  description = "Update an incident."
 
   param "conference_bridge" {
     type = object({
@@ -25,13 +25,13 @@ pipeline "update_incident" {
 
   param "from" {
     type        = string
-    description = "The email address of a valid user associated with the account making the request."
+    description = local.email_param_description
     optional    = true
   }
 
   param "incident_id" {
     type        = string
-    description = "The ID of the resource."
+    description = local.incident_id_param_description
   }
 
   param "priority" {
@@ -57,7 +57,7 @@ pipeline "update_incident" {
 
   param "api_key" {
     type        = string
-    description = "API Key to make an API call."
+    description = local.api_key_param_description
     default     = var.api_key
   }
 
@@ -69,7 +69,7 @@ pipeline "update_incident" {
 
   param "type" {
     type        = string
-    description = ""
+    description = "The incident type."
   }
 
   param "urgency" {
@@ -93,7 +93,7 @@ pipeline "update_incident" {
     })
   }
 
-  output "update_response" {
-    value = jsondecode(step.http.update_incident.response_body)
+  output "update_incident" {
+    value = step.http.update_incident.response_body
   }
 }

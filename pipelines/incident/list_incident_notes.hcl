@@ -4,13 +4,13 @@ pipeline "list_incident_notes" {
 
   param "api_key" {
     type        = string
-    description = "API Key to make an API call."
+    description = local.api_key_param_description
     default     = var.api_key
   }
 
   param "incident_id" {
     type        = string
-    description = "The ID of the incident."
+    description = local.incident_id_param_description
   }
 
   step "http" "list_incident_notes" {

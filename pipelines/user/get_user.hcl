@@ -1,16 +1,16 @@
 pipeline "get_user" {
-  title       = "Get User by ID"
-  description = "Get an user by its ID."
+  title       = "Get User"
+  description = "Get details about an existing user."
 
   param "api_key" {
     type        = string
-    description = "API Key to make an API call."
+    description = local.api_key_param_description
     default     = var.api_key
   }
 
   param "user_id" {
     type        = string
-    description = "The ID of the resource."
+    description = local.user_id_param_description
   }
 
   step "http" "get_user" {
@@ -23,12 +23,6 @@ pipeline "get_user" {
   }
 
   output "user" {
-    value = jsondecode(step.http.get_user.response_body)
-  }
-  output "user_id" {
-    value = jsondecode(step.http.get_user.response_body).user.id
-  }
-  output "user_name" {
-    value = jsondecode(step.http.get_user.response_body).user.name
+    value = step.http.get_user.response_body
   }
 }
