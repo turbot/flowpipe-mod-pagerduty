@@ -1,6 +1,6 @@
 pipeline "list_on_calls" {
   title       = "List On-Calls"
-  description = "List all of the on-calls."
+  description = "List all the on-call entries."
 
   param "api_key" {
     type        = string
@@ -18,6 +18,7 @@ pipeline "list_on_calls" {
   }
 
   output "on_calls" {
-    value = step.http.list_on_calls.response_body
+    description = "An array of on-call objects."
+    value       = step.http.list_on_calls.response_body
   }
 }

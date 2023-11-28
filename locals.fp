@@ -5,3 +5,15 @@ locals {
   incident_id_param_description = "The ID of the incident."
   user_id_param_description     = "The ID of the user."
 }
+
+locals {
+  user_common_param = {
+    name        = "name"
+    email       = "email"
+    time_zone   = "time_zone"
+    color       = "color"
+    role        = "role"
+    description = "description"
+    job_title   = "job_title"
+  }
+}

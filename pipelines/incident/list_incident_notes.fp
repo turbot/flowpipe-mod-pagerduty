@@ -1,6 +1,6 @@
-pipeline "list_incident_alerts" {
-  title       = "List Incident Alerts"
-  description = "List incident alerts in Pagerduty."
+pipeline "list_incident_notes" {
+  title       = "List Incident Notes"
+  description = "List existing notes for the specified incident."
 
   param "api_key" {
     type        = string
@@ -13,16 +13,18 @@ pipeline "list_incident_alerts" {
     description = local.incident_id_param_description
   }
 
-  step "http" "list_incident_alerts" {
+  step "http" "list_incident_notes" {
     method = "GET"
-    url    = "https://api.pagerduty.com/incidents/${param.incident_id}/alerts"
+    url    = "https://api.pagerduty.com/incidents/${param.incident_id}/notes"
+
     request_headers = {
       Content-Type  = "application/json"
       Authorization = "Token token=${param.api_key}"
     }
   }
 
-  output "incident_alerts" {
-    value = step.http.list_incident_alerts.response_body
+  output "incident_notes" {
+    description = "An array of notes."
+    value       = step.http.list_incident_notes.response_body.notes
   }
 }

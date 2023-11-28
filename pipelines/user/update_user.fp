@@ -8,6 +8,16 @@ pipeline "update_user" {
     default     = var.api_key
   }
 
+  param "name" {
+    type        = string
+    description = "The name of the user."
+  }
+
+  param "email" {
+    type        = string
+    description = "The user's email address."
+  }
+
   param "user_id" {
     type        = string
     description = local.user_id_param_description
@@ -25,26 +35,10 @@ pipeline "update_user" {
     optional    = true
   }
 
-  param "email" {
-    type        = string
-    description = "The user's email address."
-  }
-
   param "job_title" {
     type        = string
     description = "The user's title."
     optional    = true
-  }
-
-  param "license" {
-    type        = object
-    description = "The license assigned to the user."
-    optional    = true
-  }
-
-  param "name" {
-    type        = string
-    description = "The name of the user."
   }
 
   param "role" {
@@ -59,21 +53,42 @@ pipeline "update_user" {
     optional    = true
   }
 
+  step "pipeline" "get_user" {
+    pipeline = pipeline.get_user
+    args = {
+      api_key = param.api_key
+      user_id = param.user_id
+    }
+  }
+
   step "http" "update_user" {
+    depends_on = [step.pipeline.get_user]
+
     method = "PUT"
     url    = "https://api.pagerduty.com/users/${param.user_id}"
+
     request_headers = {
       Content-Type  = "application/json"
       Authorization = "Token token=${param.api_key}"
     }
+
     request_body = jsonencode({
       user = {
-        for name, value in param : name => value if value != null
+        avatar_url  = step.pipeline.get_user.output.user.avatar_url
+        color       = coalesce(param.color, step.pipeline.get_user.output.user.color)
+        description = coalesce(param.description, step.pipeline.get_user.output.user.description)
+        email       = coalesce(param.email, step.pipeline.get_user.output.user.email)
+        job_title   = step.pipeline.get_user.output.user.job_title
+        name        = coalesce(param.name, step.pipeline.get_user.output.user.name)
+        role        = step.pipeline.get_user.output.user.role
+        time_zone   = step.pipeline.get_user.output.user.time_zone
+        type        = step.pipeline.get_user.output.user.type
       }
     })
   }
 
-  output "update_user" {
-    value = step.http.update_user.response_body
+  output "user" {
+    description = "The user that was updated."
+    value       = step.http.update_user.response_body.user
   }
 }

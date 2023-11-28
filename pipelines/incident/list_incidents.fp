@@ -1,6 +1,6 @@
 pipeline "list_incidents" {
   title       = "List Incidents"
-  description = "List incidents in Pagerduty."
+  description = "List existing incidents."
 
   param "api_key" {
     type        = string
@@ -11,6 +11,7 @@ pipeline "list_incidents" {
   step "http" "list_incidents" {
     method = "GET"
     url    = "https://api.pagerduty.com/incidents"
+
     request_headers = {
       Content-Type  = "application/json"
       Authorization = "Token token=${param.api_key}"
@@ -18,6 +19,7 @@ pipeline "list_incidents" {
   }
 
   output "incidents" {
-    value = step.http.list_incidents.response_body
+    description = "An array of incidents."
+    value       = step.http.list_incidents.response_body.incidents
   }
 }

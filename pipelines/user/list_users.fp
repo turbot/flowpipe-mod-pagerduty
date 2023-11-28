@@ -1,6 +1,6 @@
 pipeline "list_users" {
   title       = "List Users"
-  description = "List users in pagerduty."
+  description = "List users of your PagerDuty account."
 
   param "api_key" {
     type        = string
@@ -18,6 +18,7 @@ pipeline "list_users" {
   }
 
   output "users" {
-    value = step.http.list_users.response_body
+    description = "An paginated array of users."
+    value       = step.http.list_users.response_body
   }
 }

@@ -1,6 +1,6 @@
 pipeline "delete_user" {
   title       = "Delete User"
-  description = "Delete an user."
+  description = "Remove an existing user."
 
   param "api_key" {
     type        = string
@@ -20,9 +20,5 @@ pipeline "delete_user" {
       Content-Type  = "application/json"
       Authorization = "Token token=${param.api_key}"
     }
-  }
-
-  output "delete_user" {
-    value = step.http.delete_user.response_body
   }
 }

@@ -16,6 +16,7 @@ pipeline "get_user" {
   step "http" "get_user" {
     method = "GET"
     url    = "https://api.pagerduty.com/users/${param.user_id}"
+
     request_headers = {
       Content-Type  = "application/json"
       Authorization = "Token token=${param.api_key}"
@@ -23,6 +24,7 @@ pipeline "get_user" {
   }
 
   output "user" {
-    value = step.http.get_user.response_body
+    description = "The user requested."
+    value       = step.http.get_user.response_body.user
   }
 }

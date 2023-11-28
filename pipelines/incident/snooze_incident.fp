@@ -26,6 +26,7 @@ pipeline "snooze_incident" {
   step "http" "snooze_incident" {
     method = "POST"
     url    = "https://api.pagerduty.com/incidents/${param.incident_id}/snooze"
+
     request_headers = {
       Content-Type  = "application/json"
       Authorization = "Token token=${param.api_key}"
@@ -36,7 +37,8 @@ pipeline "snooze_incident" {
     })
   }
 
-  output "snooze_incident" {
-    value = step.http.snooze_incident.response_body
+  output "incident" {
+    description = "The incident that was successfully snoozed."
+    value       = step.http.snooze_incident.response_body.incident
   }
 }
