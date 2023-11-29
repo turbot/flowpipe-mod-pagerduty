@@ -7,7 +7,7 @@ mod "pagerduty" {
   categories    = ["pagerduty"]
 
   opengraph {
-    title       = "PagerDuty"
+    title       = "PagerDuty Mod for Flowpipe"
     description = "Run pipelines to supercharge your PagerDuty workflows using Flowpipe."
     image       = "/images/flowpipe/mods/turbot/pagerduty-social-graphic.png"
   }

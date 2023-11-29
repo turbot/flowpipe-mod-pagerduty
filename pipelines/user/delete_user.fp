@@ -16,9 +16,11 @@ pipeline "delete_user" {
   step "http" "delete_user" {
     method = "DELETE"
     url    = "https://api.pagerduty.com/users/${param.user_id}"
+
     request_headers = {
       Content-Type  = "application/json"
       Authorization = "Token token=${param.api_key}"
     }
   }
+
 }

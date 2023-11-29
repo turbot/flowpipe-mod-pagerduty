@@ -11,6 +11,7 @@ pipeline "list_on_calls" {
   step "http" "list_on_calls" {
     method = "GET"
     url    = "https://api.pagerduty.com/oncalls"
+
     request_headers = {
       Content-Type  = "application/json"
       Authorization = "Token token=${param.api_key}"

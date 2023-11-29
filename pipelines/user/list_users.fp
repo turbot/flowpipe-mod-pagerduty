@@ -10,15 +10,20 @@ pipeline "list_users" {
 
   step "http" "list_users" {
     method = "GET"
-    url    = "https://api.pagerduty.com/users"
+    url    = "https://api.pagerduty.com/users?limit=100"
     request_headers = {
       Content-Type  = "application/json"
       Authorization = "Token token=${param.api_key}"
     }
+
+    loop {
+      until = result.response_body.more == false
+      url   = "https://api.pagerduty.com/users?limit=100&offset=${loop.index + 1}"
+    }
   }
 
   output "users" {
-    description = "An paginated array of users."
-    value       = step.http.list_users.response_body
+    description = "A paginated array of users."
+    value       = flatten([for page, users in step.http.list_users : users.response_body.users])
   }
 }

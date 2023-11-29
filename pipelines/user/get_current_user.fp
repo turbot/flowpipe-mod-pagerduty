@@ -1,6 +1,6 @@
 pipeline "get_current_user" {
   title       = "Get Current User"
-  description = "Get details about the current user."
+  description = "Get details about the current user. Requires use a user-level token."
 
   param "api_key" {
     type        = string
