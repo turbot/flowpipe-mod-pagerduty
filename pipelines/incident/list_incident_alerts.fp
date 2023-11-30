@@ -15,16 +15,21 @@ pipeline "list_incident_alerts" {
 
   step "http" "list_incident_alerts" {
     method = "GET"
-    url    = "https://api.pagerduty.com/incidents/${param.incident_id}/alerts"
+    url    = "https://api.pagerduty.com/incidents/${param.incident_id}/alerts?limit=100"
 
     request_headers = {
       Content-Type  = "application/json"
       Authorization = "Token token=${param.api_key}"
     }
+
+    loop {
+      until = result.response_body.more == false
+      url   = "https://api.pagerduty.com/incidents/${param.incident_id}/alerts?limit=100&offset=${loop.index + 1}"
+    }
   }
 
-  output "incident_alerts" {
+  output "alerts" {
     description = "An array of the incident's alerts."
-    value       = step.http.list_incident_alerts.response_body
+    value       = flatten([for page, alerts in step.http.list_incident_alerts : alerts.response_body.alerts])
   }
 }

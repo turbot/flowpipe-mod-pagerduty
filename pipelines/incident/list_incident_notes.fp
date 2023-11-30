@@ -15,16 +15,21 @@ pipeline "list_incident_notes" {
 
   step "http" "list_incident_notes" {
     method = "GET"
-    url    = "https://api.pagerduty.com/incidents/${param.incident_id}/notes"
+    url    = "https://api.pagerduty.com/incidents/${param.incident_id}/notes?limit=100"
 
     request_headers = {
       Content-Type  = "application/json"
       Authorization = "Token token=${param.api_key}"
     }
+
+    loop {
+      until = result.response_body.more == false
+      url   = "https://api.pagerduty.com/incidents/${param.incident_id}/notes?limit=100&offset=${loop.index + 1}"
+    }
   }
 
-  output "incident_notes" {
+  output "notes" {
     description = "An array of notes."
-    value       = step.http.list_incident_notes.response_body.notes
+    value       = flatten([for page, notes in step.http.list_incident_notes : notes.response_body.notes])
   }
 }

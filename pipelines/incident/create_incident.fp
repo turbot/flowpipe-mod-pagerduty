@@ -26,7 +26,7 @@ pipeline "create_incident" {
     description = local.email_param_description
   }
 
-  // Allowed value: incident
+  # Allowed value: incident
   param "type" {
     type        = string
     description = "The type of the incident."
