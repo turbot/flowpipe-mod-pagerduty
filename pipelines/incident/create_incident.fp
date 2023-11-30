@@ -29,7 +29,7 @@ pipeline "create_incident" {
   # Allowed value: incident
   param "type" {
     type        = string
-    description = "The type of the incident."
+    description = "The type of the incident. Allowed value is 'incident'."
     default     = "incident"
   }
 
@@ -77,7 +77,7 @@ pipeline "create_incident" {
 
   param "urgency" {
     type        = string
-    description = "The urgency of the incident."
+    description = "The urgency of the incident. Allowed values are 'high' and 'low'."
     optional    = true
   }
 

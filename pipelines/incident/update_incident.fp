@@ -15,7 +15,7 @@ pipeline "update_incident" {
 
   param "type" {
     type        = string
-    description = "The incident type."
+    description = "The incident type. Allowed values are 'incident' and 'incident_reference'"
   }
 
   param "from" {
@@ -61,7 +61,7 @@ pipeline "update_incident" {
 
   param "status" {
     type        = string
-    description = "The new status of the incident."
+    description = "The new status of the incident. Allowed values are 'acknowledged' and 'resolved'."
     optional    = true
   }
 
@@ -73,7 +73,7 @@ pipeline "update_incident" {
 
   param "urgency" {
     type        = string
-    description = "The urgency of the incident."
+    description = "The urgency of the incident. Allowed values are 'high' and 'low'."
     optional    = true
   }
 
