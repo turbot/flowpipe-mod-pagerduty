@@ -23,12 +23,15 @@ pipeline "update_incident" {
     description = local.email_param_description
   }
 
-  param "conference_bridge" {
-    type = object({
-      conference_number = string
-      conference_url    = string
-    })
-    description = "Details of the conference bridge."
+  param "conference_number" {
+    type        = string
+    description = "The phone number of the conference call for the conference bridge."
+    optional    = true
+  }
+
+  param "conference_url" {
+    type        = string
+    description = "An URL for the conference bridge. This could be a link to a web conference or Slack channel."
     optional    = true
   }
 
@@ -38,18 +41,27 @@ pipeline "update_incident" {
     optional    = true
   }
 
-  param "escalation_policy" {
-    type        = object({})
-    description = "The escalation policy for the incident."
+  param "escalation_policy_id" {
+    type        = string
+    description = "The ID of the escalation policy for the incident."
     optional    = true
   }
 
-  param "priority" {
-    type = object({
-      id   = string
-      type = string
-    })
-    description = "The priority of the incident."
+  param "escalation_policy_type" {
+    type        = string
+    description = "The type of the escalation policy for the incident."
+    optional    = true
+  }
+
+  param "priority_id" {
+    type        = string
+    description = "The ID of the priority of the incident."
+    optional    = true
+  }
+
+  param "priority_type" {
+    type        = string
+    description = "The type of the priority of the incident."
     optional    = true
   }
 
@@ -88,9 +100,40 @@ pipeline "update_incident" {
     }
 
     request_body = jsonencode({
-      incident = {
-        for name, value in param : name => value if value != null
-      }
+      incident = merge({
+        type  = param.type
+        title = param.title
+        },
+        param.escalation_policy_id != null && param.escalation_policy_type != null ? {
+          escalation_policy = {
+            id   = param.escalation_policy_id
+            type = param.escalation_policy_type
+          }
+        } : {},
+        param.priority_id != null && param.priority_type != null ? {
+          priority = {
+            id   = param.priority_id
+            type = param.priority_type
+          }
+        } : {},
+        param.conference_number != null && param.conference_url != null ? {
+          conference_bridge = {
+            conference_number = param.conference_number
+            conference_url    = param.conference_url
+          }
+        } : {},
+        param.resolution != null ? {
+          resolution = param.resolution
+        } : {},
+        param.status != null ? {
+          status = param.status
+        } : {},
+        param.escalation_level != null ? {
+          escalation_level = param.escalation_level
+        } : {},
+        param.urgency != null ? {
+          urgency = param.urgency
+      } : {})
     })
   }
 

@@ -8,12 +8,14 @@ pipeline "create_incident" {
     default     = var.api_key
   }
 
-  param "service" {
-    type = object({
-      id   = string
-      type = string
-    })
-    description = "The service detail for the incident."
+  param "service_id" {
+    type        = string
+    description = "The ID of the service."
+  }
+
+  param "service_type" {
+    type        = string
+    description = "The type of the service."
   }
 
   param "title" {
@@ -27,29 +29,38 @@ pipeline "create_incident" {
   }
 
   param "body" {
-    type = object({
-      type    = string
-      details = string
-    })
+    type        = string
     description = "Additional incident details."
     optional    = true
   }
 
-  param "conference_bridge" {
-    type = object({
-      conference_number = string
-      conference_url    = string
-    })
-    description = "Central channel for collaboration."
+  param "body_type" {
+    type        = string
+    description = "The type of the body."
     optional    = true
   }
 
-  param "escalation_policy" {
-    type = object({
-      id   = string
-      type = string
-    })
-    description = "The escalation policy for the incident."
+  param "conference_number" {
+    type        = string
+    description = "The phone number of the conference call for the conference bridge."
+    optional    = true
+  }
+
+  param "conference_url" {
+    type        = string
+    description = "An URL for the conference bridge. This could be a link to a web conference or Slack channel."
+    optional    = true
+  }
+
+  param "escalation_policy_id" {
+    type        = string
+    description = "The ID of the escalation policy for the incident."
+    optional    = true
+  }
+
+  param "escalation_policy_type" {
+    type        = string
+    description = "The type of the escalation policy for the incident."
     optional    = true
   }
 
@@ -59,12 +70,15 @@ pipeline "create_incident" {
     optional    = true
   }
 
-  param "priority" {
-    type = object({
-      id   = string
-      type = string
-    })
-    description = "The priority of the incident."
+  param "priority_id" {
+    type        = string
+    description = "The ID of the priority of the incident."
+    optional    = true
+  }
+
+  param "priority_type" {
+    type        = string
+    description = "The type of the priority of the incident."
     optional    = true
   }
 
@@ -84,13 +98,46 @@ pipeline "create_incident" {
       From          = "${param.from}"
     }
 
-    request_body = jsonencode(merge(
-      {
-        incident = {
-          for name, value in param : name => value if value != null
+    request_body = jsonencode({
+      incident = merge({
+        type  = "incident"
+        title = param.title
+        service = {
+          id   = param.service_id
+          type = param.service_type
         }
-      }
-    ))
+        },
+        param.body_type != null && param.body != null ? {
+          body = {
+            type    = param.body_type
+            details = param.body
+          }
+        } : {},
+        param.escalation_policy_id != null && param.escalation_policy_type != null ? {
+          escalation_policy = {
+            id   = param.escalation_policy_id
+            type = param.escalation_policy_type
+          }
+        } : {},
+        param.priority_id != null && param.priority_type != null ? {
+          priority = {
+            id   = param.priority_id
+            type = param.priority_type
+          }
+        } : {},
+        param.conference_number != null && param.conference_url != null ? {
+          conference_bridge = {
+            conference_number = param.conference_number
+            conference_url    = param.conference_url
+          }
+        } : {},
+        param.incident_key != null ? {
+          incident_key = param.incident_key
+        } : {},
+        param.urgency != null ? {
+          urgency = param.urgency
+      } : {})
+    })
   }
 
   output "incident" {
