@@ -26,13 +26,6 @@ pipeline "create_incident" {
     description = local.email_param_description
   }
 
-  # Allowed value: incident
-  param "type" {
-    type        = string
-    description = "The type of the incident. Allowed value is 'incident'."
-    default     = "incident"
-  }
-
   param "body" {
     type = object({
       type    = string
@@ -91,11 +84,13 @@ pipeline "create_incident" {
       From          = "${param.from}"
     }
 
-    request_body = jsonencode({
-      incident = {
-        for name, value in param : name => value if value != null
+    request_body = jsonencode(merge(
+      {
+        incident = {
+          for name, value in param : name => value if value != null
+        }
       }
-    })
+    ))
   }
 
   output "incident" {

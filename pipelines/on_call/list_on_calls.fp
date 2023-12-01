@@ -1,4 +1,4 @@
-pipeline "list_oncalls" {
+pipeline "list_on_calls" {
   title       = "List On-Calls"
   description = "List all the on-call entries."
 
@@ -8,7 +8,7 @@ pipeline "list_oncalls" {
     default     = var.api_key
   }
 
-  step "http" "list_oncalls" {
+  step "http" "list_on_calls" {
     method = "GET"
     url    = "https://api.pagerduty.com/oncalls?limit=100"
 
@@ -23,8 +23,8 @@ pipeline "list_oncalls" {
     }
   }
 
-  output "oncalls" {
+  output "on_calls" {
     description = "An array of on-call objects."
-    value       = flatten([for page, oncalls in step.http.list_oncalls : oncalls.response_body.oncalls])
+    value       = flatten([for page, on_calls in step.http.list_on_calls : on_calls.response_body.on_calls])
   }
 }

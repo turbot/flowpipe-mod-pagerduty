@@ -1,12 +1,12 @@
 locals {
   user_common_param = {
-    name        = "name"
-    email       = "email"
-    time_zone   = "time_zone"
     color       = "color"
-    role        = "role"
     description = "description"
+    email       = "email"
     job_title   = "job_title"
+    name        = "name"
+    role        = "role"
+    time_zone   = "time_zone"
   }
 }
 
