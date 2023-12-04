@@ -10,7 +10,7 @@ pipeline "list_incidents" {
 
   step "http" "list_incidents" {
     method = "GET"
-    url    = "https://api.pagerduty.com/incidents?limit=1"
+    url    = "https://api.pagerduty.com/incidents?limit=100"
 
     request_headers = {
       Content-Type  = "application/json"
