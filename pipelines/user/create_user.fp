@@ -2,10 +2,10 @@ pipeline "create_user" {
   title       = "Create User"
   description = "Create a new user."
 
-  param "api_key" {
+  param "cred" {
     type        = string
-    description = local.api_key_param_description
-    default     = var.api_key
+    description = local.cred_param_description
+    default     = var.default_cred
   }
 
   param "email" {
@@ -60,7 +60,7 @@ pipeline "create_user" {
 
     request_headers = {
       Content-Type  = "application/json"
-      Authorization = "Token token=${param.api_key}"
+      Authorization = "Token token=${credential.pagerduty[param.cred].token}"
     }
 
     request_body = jsonencode({

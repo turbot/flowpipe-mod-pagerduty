@@ -2,10 +2,10 @@ pipeline "create_incident" {
   title       = "Create Incident"
   description = "Create an incident."
 
-  param "api_key" {
+  param "cred" {
     type        = string
-    description = local.api_key_param_description
-    default     = var.api_key
+    description = local.cred_param_description
+    default     = var.default_cred
   }
 
   param "service_id" {
@@ -94,7 +94,7 @@ pipeline "create_incident" {
 
     request_headers = {
       Content-Type  = "application/json"
-      Authorization = "Token token=${param.api_key}"
+      Authorization = "Token token=${credential.pagerduty[param.cred].token}"
       From          = "${param.from}"
     }
 

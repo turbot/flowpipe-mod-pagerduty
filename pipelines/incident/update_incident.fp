@@ -2,10 +2,10 @@ pipeline "update_incident" {
   title       = "Update Incident"
   description = "Acknowledge, resolve, escalate or reassign an incident."
 
-  param "api_key" {
+  param "cred" {
     type        = string
-    description = local.api_key_param_description
-    default     = var.api_key
+    description = local.cred_param_description
+    default     = var.default_cred
   }
 
   param "incident_id" {
@@ -95,7 +95,7 @@ pipeline "update_incident" {
 
     request_headers = {
       Content-Type  = "application/json"
-      Authorization = "Token token=${param.api_key}"
+      Authorization = "Token token=${credential.pagerduty[param.cred].token}"
       From          = "${param.from}"
     }
 

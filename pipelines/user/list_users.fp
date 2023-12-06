@@ -2,10 +2,10 @@ pipeline "list_users" {
   title       = "List Users"
   description = "List users of your PagerDuty account."
 
-  param "api_key" {
+  param "cred" {
     type        = string
-    description = local.api_key_param_description
-    default     = var.api_key
+    description = local.cred_param_description
+    default     = var.default_cred
   }
 
   step "http" "list_users" {
@@ -14,7 +14,7 @@ pipeline "list_users" {
 
     request_headers = {
       Content-Type  = "application/json"
-      Authorization = "Token token=${param.api_key}"
+      Authorization = "Token token=${credential.pagerduty[param.cred].token}"
     }
 
     loop {

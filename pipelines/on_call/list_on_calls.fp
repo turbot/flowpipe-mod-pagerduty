@@ -2,10 +2,10 @@ pipeline "list_on_calls" {
   title       = "List On-Calls"
   description = "List all the on-call entries."
 
-  param "api_key" {
+  param "cred" {
     type        = string
-    description = local.api_key_param_description
-    default     = var.api_key
+    description = local.cred_param_description
+    default     = var.default_cred
   }
 
   step "http" "list_on_calls" {
@@ -14,7 +14,7 @@ pipeline "list_on_calls" {
 
     request_headers = {
       Content-Type  = "application/json"
-      Authorization = "Token token=${param.api_key}"
+      Authorization = "Token token=${credential.pagerduty[param.cred].token}"
     }
 
     loop {
@@ -25,6 +25,6 @@ pipeline "list_on_calls" {
 
   output "on_calls" {
     description = "An array of on-call objects."
-    value       = flatten([for page, on_calls in step.http.list_on_calls : on_calls.response_body.on_calls])
+    value       = flatten([for page, on_calls in step.http.list_on_calls : on_calls.response_body.oncalls])
   }
 }

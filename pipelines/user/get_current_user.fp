@@ -2,10 +2,10 @@ pipeline "get_current_user" {
   title       = "Get Current User"
   description = "Get details about the current user. Requires use a user-level token."
 
-  param "api_key" {
+  param "cred" {
     type        = string
-    description = local.api_key_param_description
-    default     = var.api_key
+    description = local.cred_param_description
+    default     = var.default_cred
   }
 
   step "http" "get_current_user" {
@@ -14,7 +14,7 @@ pipeline "get_current_user" {
 
     request_headers = {
       Content-Type  = "application/json"
-      Authorization = "Token token=${param.api_key}"
+      Authorization = "Token token=${credential.pagerduty[param.cred].token}"
     }
   }
 

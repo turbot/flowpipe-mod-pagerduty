@@ -2,10 +2,10 @@ pipeline "list_incidents" {
   title       = "List Incidents"
   description = "List existing incidents."
 
-  param "api_key" {
+  param "cred" {
     type        = string
-    description = local.api_key_param_description
-    default     = var.api_key
+    description = local.cred_param_description
+    default     = var.default_cred
   }
 
   step "http" "list_incidents" {
@@ -14,7 +14,7 @@ pipeline "list_incidents" {
 
     request_headers = {
       Content-Type  = "application/json"
-      Authorization = "Token token=${param.api_key}"
+      Authorization = "Token token=${credential.pagerduty[param.cred].token}"
     }
 
     loop {

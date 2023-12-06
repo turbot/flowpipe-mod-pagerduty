@@ -2,10 +2,10 @@ pipeline "create_status_update_on_incident" {
   title       = "Create Status Update on Incident"
   description = "Create a new status update for the specified incident."
 
-  param "api_key" {
+  param "cred" {
     type        = string
-    description = local.api_key_param_description
-    default     = var.api_key
+    description = local.cred_param_description
+    default     = var.default_cred
   }
 
   param "message" {
@@ -29,7 +29,7 @@ pipeline "create_status_update_on_incident" {
 
     request_headers = {
       Content-Type  = "application/json"
-      Authorization = "Token token=${param.api_key}"
+      Authorization = "Token token=${credential.pagerduty[param.cred].token}"
       From          = "${param.from}"
     }
 

@@ -2,10 +2,10 @@ pipeline "list_incident_log_entries" {
   title       = "List Incident Log Entries"
   description = "List log entries for the specified incident."
 
-  param "api_key" {
+  param "cred" {
     type        = string
-    description = local.api_key_param_description
-    default     = var.api_key
+    description = local.cred_param_description
+    default     = var.default_cred
   }
 
   param "incident_id" {
@@ -19,7 +19,7 @@ pipeline "list_incident_log_entries" {
 
     request_headers = {
       Content-Type  = "application/json"
-      Authorization = "Token token=${param.api_key}"
+      Authorization = "Token token=${credential.pagerduty[param.cred].token}"
     }
 
     loop {

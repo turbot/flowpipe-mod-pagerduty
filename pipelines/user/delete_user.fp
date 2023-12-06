@@ -2,10 +2,10 @@ pipeline "delete_user" {
   title       = "Delete User"
   description = "Remove an existing user."
 
-  param "api_key" {
+  param "cred" {
     type        = string
-    description = local.api_key_param_description
-    default     = var.api_key
+    description = local.cred_param_description
+    default     = var.default_cred
   }
 
   param "user_id" {
@@ -19,7 +19,7 @@ pipeline "delete_user" {
 
     request_headers = {
       Content-Type  = "application/json"
-      Authorization = "Token token=${param.api_key}"
+      Authorization = "Token token=${credential.pagerduty[param.cred].token}"
     }
   }
 

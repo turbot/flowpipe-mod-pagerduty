@@ -2,10 +2,10 @@ pipeline "update_user" {
   title       = "Update User"
   description = "Update an existing user."
 
-  param "api_key" {
+  param "cred" {
     type        = string
-    description = local.api_key_param_description
-    default     = var.api_key
+    description = local.cred_param_description
+    default     = var.default_cred
   }
 
   param "name" {
@@ -56,7 +56,7 @@ pipeline "update_user" {
   step "pipeline" "get_user" {
     pipeline = pipeline.get_user
     args = {
-      api_key = param.api_key
+      cred    = param.cred
       user_id = param.user_id
     }
   }
@@ -69,7 +69,7 @@ pipeline "update_user" {
 
     request_headers = {
       Content-Type  = "application/json"
-      Authorization = "Token token=${param.api_key}"
+      Authorization = "Token token=${credential.pagerduty[param.cred].token}"
     }
 
     request_body = jsonencode({
