@@ -5,7 +5,7 @@ pipeline "list_incident_log_entries" {
   param "cred" {
     type        = string
     description = local.cred_param_description
-    default     = var.default_cred
+    default     = "default"
   }
 
   param "incident_id" {
