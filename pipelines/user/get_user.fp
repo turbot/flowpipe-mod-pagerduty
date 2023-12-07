@@ -2,6 +2,10 @@ pipeline "get_user" {
   title       = "Get User"
   description = "Get details about an existing user."
 
+  tags = {
+    type = "featured"
+  }
+
   param "cred" {
     type        = string
     description = local.cred_param_description

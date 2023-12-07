@@ -2,6 +2,10 @@ pipeline "create_status_update_on_incident" {
   title       = "Create Status Update on Incident"
   description = "Create a new status update for the specified incident."
 
+  tags = {
+    type = "featured"
+  }
+
   param "cred" {
     type        = string
     description = local.cred_param_description

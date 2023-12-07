@@ -2,6 +2,10 @@ pipeline "get_incident" {
   title       = "Get Incident"
   description = "Show detailed information about an incident."
 
+  tags = {
+    type = "featured"
+  }
+
   param "cred" {
     type        = string
     description = local.cred_param_description

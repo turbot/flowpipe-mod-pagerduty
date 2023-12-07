@@ -2,6 +2,10 @@ pipeline "create_incident" {
   title       = "Create Incident"
   description = "Create an incident."
 
+  tags = {
+    type = "featured"
+  }
+
   param "cred" {
     type        = string
     description = local.cred_param_description
