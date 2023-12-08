@@ -4,7 +4,7 @@ mod "pagerduty" {
   color         = "#06AC38"
   documentation = file("./docs/index.md")
   icon          = "/images/flowpipe/mods/turbot/pagerduty.svg"
-  categories    = ["pagerduty"]
+  categories    = ["incident response"]
 
   opengraph {
     title       = "PagerDuty Mod for Flowpipe"
