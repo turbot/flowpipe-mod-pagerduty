@@ -138,6 +138,7 @@ pipeline "update_incident" {
   }
 
   output "incident" {
-    value = step.http.update_incident.response_body.incident
+    description = "The updated incident."
+    value       = step.http.update_incident.response_body.incident
   }
 }
