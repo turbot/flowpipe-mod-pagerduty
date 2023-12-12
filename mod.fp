@@ -2,7 +2,7 @@ mod "pagerduty" {
   title         = "PagerDuty"
   description   = "Run pipelines to supercharge your PagerDuty workflows using Flowpipe."
   color         = "#06AC38"
-  documentation = file("./docs/index.md")
+  documentation = file("./README.md")
   icon          = "/images/mods/turbot/pagerduty.svg"
   categories    = ["incident response"]
 
