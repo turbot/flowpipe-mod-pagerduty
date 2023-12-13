@@ -1,11 +1,15 @@
 pipeline "get_incident" {
   title       = "Get Incident"
-  description = "Get an incident."
+  description = "Show detailed information about an incident."
 
-  param "api_key" {
+  tags = {
+    type = "featured"
+  }
+
+  param "cred" {
     type        = string
-    description = local.api_key_param_description
-    default     = var.api_key
+    description = local.cred_param_description
+    default     = "default"
   }
 
   param "incident_id" {
@@ -16,13 +20,15 @@ pipeline "get_incident" {
   step "http" "get_incident" {
     method = "GET"
     url    = "https://api.pagerduty.com/incidents/${param.incident_id}"
+
     request_headers = {
       Content-Type  = "application/json"
-      Authorization = "Token token=${param.api_key}"
+      Authorization = "Token token=${credential.pagerduty[param.cred].token}"
     }
   }
 
   output "incident" {
-    value = step.http.get_incident.response_body
+    description = "The incident requested."
+    value       = step.http.get_incident.response_body.incident
   }
 }

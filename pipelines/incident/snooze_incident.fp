@@ -2,10 +2,10 @@ pipeline "snooze_incident" {
   title       = "Snooze Incident"
   description = "Snooze an incident."
 
-  param "api_key" {
+  param "cred" {
     type        = string
-    description = local.api_key_param_description
-    default     = var.api_key
+    description = local.cred_param_description
+    default     = "default"
   }
 
   param "from" {
@@ -26,9 +26,10 @@ pipeline "snooze_incident" {
   step "http" "snooze_incident" {
     method = "POST"
     url    = "https://api.pagerduty.com/incidents/${param.incident_id}/snooze"
+
     request_headers = {
       Content-Type  = "application/json"
-      Authorization = "Token token=${param.api_key}"
+      Authorization = "Token token=${credential.pagerduty[param.cred].token}"
       From          = "${param.from}"
     }
     request_body = jsonencode({
@@ -36,7 +37,8 @@ pipeline "snooze_incident" {
     })
   }
 
-  output "snooze_incident" {
-    value = step.http.snooze_incident.response_body
+  output "incident" {
+    description = "The incident that was successfully snoozed."
+    value       = step.http.snooze_incident.response_body.incident
   }
 }

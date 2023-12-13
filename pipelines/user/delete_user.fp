@@ -1,11 +1,11 @@
 pipeline "delete_user" {
   title       = "Delete User"
-  description = "Delete an user."
+  description = "Remove an existing user."
 
-  param "api_key" {
+  param "cred" {
     type        = string
-    description = local.api_key_param_description
-    default     = var.api_key
+    description = local.cred_param_description
+    default     = "default"
   }
 
   param "user_id" {
@@ -16,13 +16,11 @@ pipeline "delete_user" {
   step "http" "delete_user" {
     method = "DELETE"
     url    = "https://api.pagerduty.com/users/${param.user_id}"
+
     request_headers = {
       Content-Type  = "application/json"
-      Authorization = "Token token=${param.api_key}"
+      Authorization = "Token token=${credential.pagerduty[param.cred].token}"
     }
   }
 
-  output "delete_user" {
-    value = step.http.delete_user.response_body
-  }
 }
