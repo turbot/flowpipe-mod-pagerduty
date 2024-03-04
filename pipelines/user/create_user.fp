@@ -37,7 +37,7 @@ pipeline "create_user" {
   }
 
   param "license" {
-    type        = object
+    type        = object({})
     description = "The License assigned to the user."
     optional    = true
   }
