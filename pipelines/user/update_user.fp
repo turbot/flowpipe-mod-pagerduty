@@ -2,10 +2,10 @@ pipeline "update_user" {
   title       = "Update User"
   description = "Update an existing user."
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.pagerduty
+    description = local.conn_param_description
+    default     = connection.pagerduty.default
   }
 
   param "name" {
@@ -69,7 +69,7 @@ pipeline "update_user" {
 
     request_headers = {
       Content-Type  = "application/json"
-      Authorization = "Token token=${credential.pagerduty[param.cred].token}"
+      Authorization = "Token token=${param.conn.token}"
     }
 
     request_body = jsonencode({
