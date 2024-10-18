@@ -3,7 +3,7 @@ pipeline "create_incident" {
   description = "Create an incident."
 
   tags = {
-    type = "featured"
+    recommended = "true"
   }
 
   param "conn" {

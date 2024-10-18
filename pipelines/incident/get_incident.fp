@@ -3,7 +3,7 @@ pipeline "get_incident" {
   description = "Show detailed information about an incident."
 
   tags = {
-    type = "featured"
+    recommended = "true"
   }
 
   param "conn" {

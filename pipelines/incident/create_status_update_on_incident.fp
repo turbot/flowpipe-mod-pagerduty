@@ -3,7 +3,7 @@ pipeline "create_status_update_on_incident" {
   description = "Create a new status update for the specified incident."
 
   tags = {
-    type = "featured"
+    recommended = "true"
   }
 
   param "conn" {

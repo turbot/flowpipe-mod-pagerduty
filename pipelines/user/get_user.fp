@@ -3,7 +3,7 @@ pipeline "get_user" {
   description = "Get details about an existing user."
 
   tags = {
-    type = "featured"
+    recommended = "true"
   }
 
   param "conn" {
