@@ -2,10 +2,10 @@ pipeline "get_current_user" {
   title       = "Get Current User"
   description = "Get details about the current user. Requires use a user-level token."
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.pagerduty
+    description = local.conn_param_description
+    default     = connection.pagerduty.default
   }
 
   step "http" "get_current_user" {
@@ -14,7 +14,7 @@ pipeline "get_current_user" {
 
     request_headers = {
       Content-Type  = "application/json"
-      Authorization = "Token token=${credential.pagerduty[param.cred].token}"
+      Authorization = "Token token=${param.conn.token}"
     }
   }
 
