@@ -11,4 +11,10 @@ mod "pagerduty" {
     description = "Run pipelines to supercharge your PagerDuty workflows using Flowpipe."
     image       = "/images/mods/turbot/pagerduty-social-graphic.png"
   }
+
+  require {
+    flowpipe {
+      min_version = "1.0.0"
+    }
+  }
 }
