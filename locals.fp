@@ -12,7 +12,7 @@ locals {
 
 # Common descriptions
 locals {
-  cred_param_description        = "Name for credentials to use. If not provided, the default credentials will be used."
+  conn_param_description        = "Name of PagerDuty connection to use. If not provided, the default PagerDuty connection will be used."
   email_param_description       = "The email address of a valid user associated with the account making the request."
   incident_id_param_description = "The ID of the incident."
   user_id_param_description     = "The ID of the user."

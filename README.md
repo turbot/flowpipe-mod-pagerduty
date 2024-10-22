@@ -17,25 +17,25 @@ brew tap turbot/tap
 brew install flowpipe
 ```
 
-### Credentials
+### Connections
 
 By default, the following environment variables will be used for authentication:
 
 - `PAGERDUTY_TOKEN`
 
-You can also create `credential` resources in configuration files:
+You can also create `connection` resources in configuration files:
 
 ```sh
 vi ~/.flowpipe/config/pagerduty.fpc
 ```
 
 ```hcl
-credential "pagerduty" "pagerduty_cred" {
-  api_key = "u+_szhL....."
+connection "pagerduty" "pagerduty_conn" {
+  token = "u+_szhL....."
 }
 ```
 
-For more information on credentials in Flowpipe, please see [Managing Credentials](https://flowpipe.io/docs/run/credentials).
+For more information on connections in Flowpipe, please see [Managing Connections](https://flowpipe.io/docs/run/connections).
 
 ### Usage
 
@@ -64,9 +64,6 @@ pipeline "my_pipeline" {
 
   step "pipeline" "list_incidents" {
     pipeline = pagerduty.pipeline.list_incidents
-    args = {
-      api_key = "u+gLkyUh9sGsEGH3nmtw"
-    }
   }
 }
 ```
@@ -95,13 +92,13 @@ flowpipe pipeline list
 Run a pipeline:
 
 ```sh
-flowpipe pipeline run list_incidents --arg api_key=u+gLkyUh9sGsEGH3nmtw
+flowpipe pipeline run list_incidents
 ```
 
-To use a specific `credential`, specify the `cred` pipeline argument:
+To use a specific `connection`, specify the `conn` pipeline argument:
 
 ```sh
-flowpipe pipeline run list_incidents --arg api_key=u+gLkyUh9sGsEGH3nmtw --arg cred=pagerduty_profile
+flowpipe pipeline run list_incidents --arg conn=connection.pagerduty.my_conn
 ```
 
 ## Open Source & Contributing

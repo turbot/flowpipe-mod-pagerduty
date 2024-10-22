@@ -2,10 +2,10 @@ pipeline "snooze_incident" {
   title       = "Snooze Incident"
   description = "Snooze an incident."
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.pagerduty
+    description = local.conn_param_description
+    default     = connection.pagerduty.default
   }
 
   param "from" {
@@ -29,7 +29,7 @@ pipeline "snooze_incident" {
 
     request_headers = {
       Content-Type  = "application/json"
-      Authorization = "Token token=${credential.pagerduty[param.cred].token}"
+      Authorization = "Token token=${param.conn.token}"
       From          = "${param.from}"
     }
     request_body = jsonencode({

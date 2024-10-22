@@ -2,10 +2,10 @@ pipeline "create_note_on_incident" {
   title       = "Create Note on Incident"
   description = "Create a new note for the specified incident."
 
-  param "cred" {
-    type        = string
-    description = local.cred_param_description
-    default     = "default"
+  param "conn" {
+    type        = connection.pagerduty
+    description = local.conn_param_description
+    default     = connection.pagerduty.default
   }
 
   param "content" {
@@ -29,7 +29,7 @@ pipeline "create_note_on_incident" {
 
     request_headers = {
       Content-Type  = "application/json"
-      Authorization = "Token token=${credential.pagerduty[param.cred].token}"
+      Authorization = "Token token=${param.conn.token}"
       From          = "${param.from}"
     }
 
