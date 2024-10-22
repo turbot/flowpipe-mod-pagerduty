@@ -56,7 +56,7 @@ pipeline "update_user" {
   step "pipeline" "get_user" {
     pipeline = pipeline.get_user
     args = {
-      cred    = param.cred
+      conn    = param.conn
       user_id = param.user_id
     }
   }
